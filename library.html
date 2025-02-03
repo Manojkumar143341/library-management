@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Management System</title>
+  <style>
+    /* General Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      color: #555;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-size: 16px;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .btn-delete {
+      background-color: #dc3545;
+      border: none;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-delete:hover {
+      background-color: #a71d2a;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+
+      .form-group label, .form-group input {
+        font-size: 14px;
+      }
+
+      .btn {
+        font-size: 14px;
+        padding: 8px 15px;
+      }
+
+      th, td {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Library Management System</h1>
+  <div class="container">
+    <div>
+      <h2>Add a New Book</h2>
+      <div class="form-group">
+        <label for="book-title">Book Title</label>
+        <input type="text" id="book-title" placeholder="Enter the book title">
+      </div>
+      <div class="form-group">
+        <label for="book-author">Author</label>
+        <input type="text" id="book-author" placeholder="Enter the author's name">
+      </div>
+      <button class="btn" onclick="addBook()">Add Book</button>
+    </div>
+
+    <h2>Available Books</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="book-list">
+        <!-- Book rows will appear here dynamically -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Book List Array
+    const bookList = [];
+
+    // Add Book Function
+    function addBook() {
+      const title = document.getElementById('book-title').value.trim();
+      const author = document.getElementById('book-author').value.trim();
+
+      if (title === '' || author === '') {
+        alert('Please fill out all fields.');
+        return;
+      }
+
+      bookList.push({ title, author });
+      renderBookList();
+      document.getElementById('book-title').value = '';
+      document.getElementById('book-author').value = '';
+    }
+
+    // Delete Book Function
+    function deleteBook(index) {
+      if (confirm('Are you sure you want to delete this book?')) {
+        bookList.splice(index, 1);
+        renderBookList();
+      }
+    }
+
+    // Render Book List Function
+    function renderBookList() {
+      const bookListElement = document.getElementById('book-list');
+      bookListElement.innerHTML = '';
+
+      bookList.forEach((book, index) => {
+        bookListElement.innerHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${book.title}</td>
+            <td>${book.author}</td>
+            <td>
+              <button class="btn-delete" onclick="deleteBook(${index})">Delete</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+  </script>
+</body>
+</html>
